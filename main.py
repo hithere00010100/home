@@ -7,7 +7,7 @@ BLACK = "#242424"
 DARK_GRAY = "#343434"
 LIGHT_GRAY = "#505050"
 
-FONT_FAMILY = "Bahnschrift"
+FONT_FAMILY = "Kode Mono"
 
 FOCUS_TIME = 30 * 60
 BREAK_TIME = 5 * 60
@@ -390,7 +390,7 @@ class TasksManager(CTkFrame):
             
             self.textbox = CTkTextbox(master = self.task_frame, font = textbox_font, text_color = WHITE, height = 20,
                 corner_radius = 0, border_spacing = 0, fg_color = BLACK, width = 225, activate_scrollbars = False,
-                wrap = 'word', undo = True)
+                undo = True)
             
             self.entry = CTkEntry(master = self.task_frame, fg_color = DARK_GRAY, font = entry_font, justify = 'center',
                 border_color = DARK_GRAY, width = 50, corner_radius = 10, text_color = WHITE)
@@ -403,8 +403,27 @@ class TasksManager(CTkFrame):
             self.textbox.insert(index = '1.0', text = name)
             self.entry.insert(index = 'insert', string = prio)
 
-            self.textbox.bind('<Enter>', lambda event: event.widget.configure(height = 4))
-            self.textbox.bind('<Leave>', lambda event: event.widget.configure(height = 1))
+            task_length = len(name)
+
+            if task_length <= 25:
+                # no permita que la tarea se expanda
+                pass
+
+            elif task_length <= 50:
+                # permita que la tarea se expanda a dos lineas
+                self.textbox.bind('<Enter>', lambda event: event.widget.configure(height = 2))
+                self.textbox.bind('<Leave>', lambda event: event.widget.configure(height = 1))
+
+            elif task_length <= 75:
+                # permita que la tarea se expanda a tres lineas
+                self.textbox.bind('<Enter>', lambda event: event.widget.configure(height = 3))
+                self.textbox.bind('<Leave>', lambda event: event.widget.configure(height = 1))
+
+            elif task_length <= 100:
+                # permita que la tarea se expanda a cuatro lineas
+                self.textbox.bind('<Enter>', lambda event: event.widget.configure(height = 4))
+                self.textbox.bind('<Leave>', lambda event: event.widget.configure(height = 1))
+
             self.textbox.bind('<FocusIn>', lambda event: self.edit_task(event))
             self.entry.bind('<FocusIn>', lambda event: self.edit_task(event))
 
