@@ -185,6 +185,10 @@ class TasksManager(CTkFrame):
         connection.commit()
         connection.close()
 
+        self.rowconfigure(index = 0, uniform = 'row', weight = 1)
+        self.rowconfigure(index = 1, uniform = 'row', weight = 3)
+        self.columnconfigure(index = 0, weight = 1)
+
         self.checkboxes_vars = list()
         self.focused_widget = self.parent
 
@@ -219,12 +223,12 @@ class TasksManager(CTkFrame):
         self.tasks_frame = CTkScrollableFrame(master = self, fg_color = DARK_GRAY, height = 300,
             scrollbar_button_color = WHITE, scrollbar_button_hover_color = WHITE, corner_radius = 10)
 
-        header.pack(fill = 'x', padx = 10, pady = 10)
+        header.grid(row = 0, column = 0, sticky = 'nesw', padx = 10, pady = 10)
         name_label.pack(side = 'left', padx = 10, pady = 10)
         delete_button.pack(side = 'right', padx = (0, 10))
         add_button.pack(side = 'right', padx = 5)
         rename_button.pack(side = 'right')
-        self.tasks_frame.pack(fill = 'x', padx = 10, pady = (0, 10))
+        self.tasks_frame.grid(row = 1, column = 0, sticky = 'nesw', padx = 10, pady = (0, 10))
         self.grid(row = self.row, column = 0, sticky = 'nesw')
 
     def add_project(self):
@@ -264,27 +268,20 @@ class TasksManager(CTkFrame):
 
     def add_task(self):
         if self.focused_widget == self.parent:
-            checkbox_var = IntVar()
-            self.checkboxes_vars.append(checkbox_var)
-            
             textbox_font = CTkFont(family = FONT_FAMILY, size = 15)
             entry_font = CTkFont(family = FONT_FAMILY, size = 14)
 
-            self.task_frame = CTkFrame(master = self.tasks_frame, fg_color = BLACK)
-            checkbox = CTkCheckBox(master = self.task_frame, text = '', border_width = 1, border_color = WHITE,
-                checkbox_width = 20, checkbox_height = 20, corner_radius = 15, hover_color = LIGHT_GRAY, width = 0,
-                variable = checkbox_var, command = self.delete_task)
+            self.task_frame = CTkFrame(master = self, fg_color = BLACK)
             
             self.textbox = CTkTextbox(master = self.task_frame, font = textbox_font, text_color = WHITE, height = 20,
-                corner_radius = 0, border_spacing = 0, fg_color = BLACK, width = 225, activate_scrollbars = False,
+                corner_radius = 0, border_spacing = 0, fg_color = BLACK, width = 275, activate_scrollbars = False,
                 wrap = 'word', undo = True)
             
             self.entry = CTkEntry(master = self.task_frame, fg_color = DARK_GRAY, font = entry_font, justify = 'center',
                 border_color = DARK_GRAY, width = 50, corner_radius = 10, text_color = WHITE)
 
-            self.task_frame.pack(fill = 'x', padx = (0, 5), pady = (0, 5))
-            checkbox.pack(side = 'left', padx = (10, 0), pady = 10)
-            self.textbox.pack(side = 'left', pady = (6, 10))
+            self.task_frame.grid(row = 0, column = 0, sticky = 'nesw', padx = 10, pady = 10)
+            self.textbox.pack(side = 'left', padx = (15, 0), pady = 10)
             self.entry.pack(side = 'left', padx = 10, pady = 10)
 
             self.textbox.focus()
