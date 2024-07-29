@@ -28,8 +28,8 @@ class Window(CTk):
         self.rowconfigure(index = 2, weight = 3, uniform = 'row')
 
         Timer(self)
-        Notepad(self, 2, 'reminders')
         Notepad(self, 1, 'inbox')
+        Notepad(self, 2, 'reminders')
         TasksManager(self, 1, 'Empty')
         TasksManager(self, 2, 'Empty')
 
@@ -45,10 +45,8 @@ class Timer(CTkFrame):
         self.time = FOCUS_TIME
         self.full_time = self.time
         
-        self.parent.bind('<Control-KeyPress-q>', lambda event: self.trigger())
-        self.parent.bind('<Control-KeyPress-Q>', lambda event: self.trigger())
-        self.parent.bind('<Control-KeyPress-w>', lambda event: self.reset())
-        self.parent.bind('<Control-KeyPress-W>', lambda event: self.reset())
+        self.parent.bind('<Alt-KeyPress-1>', lambda event: self.trigger())
+        self.parent.bind('<Alt-KeyPress-2>', lambda event: self.reset())
 
         self.create_widgets()
         self.update()
@@ -119,15 +117,20 @@ class Notepad(CTkFrame):
         self.parent = parent
         self.col = col
         self.notes_name = notes_name.capitalize()
+        
+        if self.col == 1:
+            self.mod = 'Alt'
+        else:
+            self.mod = 'Control'
 
         self.create_widgets()
 
-        self.parent.bind('<Alt-KeyPress-q>', lambda event: self.take_notes())
-        self.parent.bind('<Alt-KeyPress-Q>', lambda event: self.take_notes())
-        self.notepad.bind('<Alt-KeyPress-w>', lambda event: self.open_notes())
-        self.notepad.bind('<Alt-KeyPress-W>', lambda event: self.open_notes())
-        self.notepad.bind('<Alt-KeyPress-e>', lambda event: self.export_notes())
-        self.notepad.bind('<Alt-KeyPress-E>', lambda event: self.export_notes())
+        self.parent.bind(f'<{self.mod}-KeyPress-q>', lambda event: self.take_notes())
+        self.parent.bind(f'<{self.mod}-KeyPress-Q>', lambda event: self.take_notes())
+        self.notepad.bind(f'<{self.mod}-KeyPress-w>', lambda event: self.open_notes())
+        self.notepad.bind(f'<{self.mod}-KeyPress-W>', lambda event: self.open_notes())
+        self.notepad.bind(f'<{self.mod}-KeyPress-e>', lambda event: self.export_notes())
+        self.notepad.bind(f'<{self.mod}-KeyPress-E>', lambda event: self.export_notes())
 
     def create_widgets(self):
         title_font = CTkFont(family = FONT_FAMILY, size = 22)
