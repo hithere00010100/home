@@ -419,7 +419,7 @@ class TasksManager(CTkFrame):
                 self.textbox.bind('<Enter>', lambda event: event.widget.configure(height = 3))
                 self.textbox.bind('<Leave>', lambda event: event.widget.configure(height = 1))
 
-            elif task_length <= 100:
+            else:
                 # permita que la tarea se expanda a cuatro lineas
                 self.textbox.bind('<Enter>', lambda event: event.widget.configure(height = 4))
                 self.textbox.bind('<Leave>', lambda event: event.widget.configure(height = 1))
