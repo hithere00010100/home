@@ -437,7 +437,7 @@ class Entry(CTkEntry):
         self.entry_var = StringVar()
 
         super().__init__(master = parent, fg_color = DARK_GRAY, border_color = DARK_GRAY, font = font, text_color = WHITE,
-            width = 300, textvariable = self.entry_var)
+            width = 500, textvariable = self.entry_var)
 
         self.grid(row = 0, column = 1, columnspan = 2)
 
