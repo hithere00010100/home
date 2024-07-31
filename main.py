@@ -459,7 +459,7 @@ class Entry(CTkEntry):
             self.col = args[1]
 
         elif self.use == 'bother':
-            self.entry_var.set(value = 'Get up, check phone, exercise or read')
+            self.entry_var.set(value = 'Get up, check phone, exercise')
 
         elif self.use == 'add project':
             self.row = args[0]
