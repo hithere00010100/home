@@ -31,7 +31,7 @@ class Window(CTk):
         Notepad(self, 1, 'inbox')
         Notepad(self, 2, 'reminders')
         TasksManager(self, 1, 'Empty')
-        TasksManager(self, 2, 'Empty')
+        TasksManager(self, 2, 'Due')
 
         self.geometry('1536x795-9-1')
 
@@ -245,7 +245,7 @@ class TasksManager(CTkFrame):
         connection.close()
 
         self.destroy()
-        TasksManager(self.parent, self.row, 'Empty')
+        TasksManager(self.parent, self.row, 'Due')
 
     def rename_project(self):
         Entry(self.parent, 'rename project', self.row, self.name, self, self.parent)
@@ -393,7 +393,7 @@ class TasksManager(CTkFrame):
             
             self.textbox = CTkTextbox(master = self.task_frame, font = textbox_font, text_color = WHITE, height = 20,
                 corner_radius = 0, border_spacing = 0, fg_color = BLACK, width = 225, activate_scrollbars = False,
-                undo = True)
+                undo = True, wrap = 'word')
             
             self.entry = CTkEntry(master = self.task_frame, fg_color = DARK_GRAY, font = entry_font, justify = 'center',
                 border_color = DARK_GRAY, width = 50, corner_radius = 10, text_color = WHITE)
