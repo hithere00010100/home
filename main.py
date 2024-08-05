@@ -31,7 +31,7 @@ class Window(CTk):
         Notepad(self, 1, 'inbox')
         Notepad(self, 2, 'reminders')
         TasksManager(self, 1, 'Empty')
-        TasksManager(self, 2, 'Due')
+        TasksManager(self, 2, 'Empty')
 
         self.geometry('1536x795-9-1')
 
@@ -245,7 +245,7 @@ class TasksManager(CTkFrame):
         connection.close()
 
         self.destroy()
-        TasksManager(self.parent, self.row, 'Due')
+        TasksManager(self.parent, self.row, 'Empty')
 
     def rename_project(self):
         Entry(self.parent, 'rename project', self.row, self.name, self, self.parent)
