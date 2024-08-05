@@ -444,7 +444,6 @@ class Entry(CTkEntry):
 
         self.grid(row = 0, column = 1, columnspan = 2)
 
-        self.focus()
         self.bind('<Escape>', lambda event: self.cancel())
         self.bind('<Return>', lambda event: self.confirm())
 
@@ -452,9 +451,11 @@ class Entry(CTkEntry):
         self.use = use
 
         if self.use == 'export notes':
+            self.focus()
             self.notepad = args[0]
 
         elif self.use == 'open notes':
+            self.focus()
             self.notepad = args[0]
             self.col = args[1]
 
@@ -462,9 +463,11 @@ class Entry(CTkEntry):
             self.entry_var.set(value = 'Get up, check phone, exercise')
 
         elif self.use == 'add project':
+            self.focus()
             self.row = args[0]
 
         elif self.use == 'rename project':
+            self.focus()
             self.row = args[0]
             self.name = args[1]
             self.tasks_manager = args[2]
