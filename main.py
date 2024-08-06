@@ -30,8 +30,8 @@ class Window(CTk):
         Timer(self)
         Notepad(self, 1, 'inbox')
         Notepad(self, 2, 'reminders')
-        TasksManager(self, 1, 'Empty')
-        TasksManager(self, 2, 'Empty')
+        TasksManager(self, 1, 'BrainDump')
+        TasksManager(self, 2, 'BrainDump')
 
         self.geometry('1536x795-9-1')
 
@@ -245,7 +245,7 @@ class TasksManager(CTkFrame):
         connection.close()
 
         self.destroy()
-        TasksManager(self.parent, self.row, 'Empty')
+        TasksManager(self.parent, self.row, 'BrainDump')
 
     def rename_project(self):
         Entry(self.parent, 'rename project', self.row, self.name, self, self.parent)
