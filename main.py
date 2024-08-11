@@ -55,8 +55,8 @@ class Timer(CTkFrame):
     def create_widgets(self):
         font = CTkFont(family = FONT_FAMILY, size = 40, weight = 'bold')
 
-        self.label = CTkLabel(master = self, fg_color = DARK_GRAY, font = font, text_color = WHITE, width = 130,
-            corner_radius = 10)
+        self.label = CTkButton(master = self, fg_color = DARK_GRAY, font = font, text_color = WHITE, width = 130,
+            corner_radius = 10, hover_color = LIGHT_GRAY, command = self.trigger)
 
         self.label.pack(pady = 15)
         self.grid(row = 0, column = 0, sticky = 'nesw')
