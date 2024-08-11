@@ -30,8 +30,8 @@ class Window(CTk):
         Timer(self)
         Notepad(self, 1, 'inbox')
         Notepad(self, 2, 'reminders')
-        TasksManager(self, 1, 'BrainDump')
-        TasksManager(self, 2, 'Due')
+        TasksManager(self, 1, 'Due')
+        TasksManager(self, 2, 'BrainDump')
 
         self.geometry('1536x795-9-1')
 
@@ -177,10 +177,10 @@ class TasksManager(CTkFrame):
 
         if self.row == 1:
             self.mod = 'Alt'
-            self.default_project = 'BrainDump'
+            self.default_project = 'Due'
         else:
             self.mod = 'Control'
-            self.default_project = 'Due'
+            self.default_project = 'BrainDump'
 
         super().__init__(master = parent, fg_color = BLACK)
 
