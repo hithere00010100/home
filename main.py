@@ -14,7 +14,7 @@ BREAK_TIME = 5 * 60
 
 class Window(CTk):
     def __init__(self):
-        super().__init__()
+        super().__init__(fg_color = BLACK)
 
         self.title('')
         self.iconbitmap('icon.ico')
