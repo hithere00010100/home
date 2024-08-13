@@ -410,16 +410,16 @@ class TasksManager(CTkFrame):
 
             task_length = len(name)
 
-            if task_length <= 25:
+            if task_length <= 19:
                 # no permita que la tarea se expanda
                 pass
 
-            elif task_length <= 50:
+            elif task_length <= 38:
                 # permita que la tarea se expanda a dos lineas
                 self.textbox.bind('<Enter>', lambda event: event.widget.configure(height = 2))
                 self.textbox.bind('<Leave>', lambda event: event.widget.configure(height = 1))
 
-            elif task_length <= 75:
+            elif task_length <= 57:
                 # permita que la tarea se expanda a tres lineas
                 self.textbox.bind('<Enter>', lambda event: event.widget.configure(height = 3))
                 self.textbox.bind('<Leave>', lambda event: event.widget.configure(height = 1))
