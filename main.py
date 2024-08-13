@@ -279,7 +279,7 @@ class TasksManager(CTkFrame):
             self.task_frame = CTkFrame(master = self, fg_color = BLACK)
             
             self.textbox = CTkTextbox(master = self.task_frame, font = textbox_font, text_color = WHITE, height = 20,
-                corner_radius = 0, border_spacing = 0, fg_color = BLACK, width = 230, activate_scrollbars = False,
+                corner_radius = 0, border_spacing = 0, fg_color = BLACK, width = 275, activate_scrollbars = False,
                 wrap = 'word', undo = True)
             
             self.entry = CTkEntry(master = self.task_frame, fg_color = DARK_GRAY, font = entry_font, justify = 'center',
@@ -394,7 +394,7 @@ class TasksManager(CTkFrame):
                 variable = checkbox_var, command = self.delete_task)
             
             self.textbox = CTkTextbox(master = self.task_frame, font = textbox_font, text_color = WHITE, height = 20,
-                corner_radius = 0, border_spacing = 0, fg_color = BLACK, width = 180, activate_scrollbars = False,
+                corner_radius = 0, border_spacing = 0, fg_color = BLACK, width = 225, activate_scrollbars = False,
                 undo = True, wrap = 'word')
             
             self.entry = CTkEntry(master = self.task_frame, fg_color = DARK_GRAY, font = entry_font, justify = 'center',
@@ -410,16 +410,16 @@ class TasksManager(CTkFrame):
 
             task_length = len(name)
 
-            if task_length <= 19:
+            if task_length <= 25:
                 # no permita que la tarea se expanda
                 pass
 
-            elif task_length <= 38:
+            elif task_length <= 50:
                 # permita que la tarea se expanda a dos lineas
                 self.textbox.bind('<Enter>', lambda event: event.widget.configure(height = 2))
                 self.textbox.bind('<Leave>', lambda event: event.widget.configure(height = 1))
 
-            elif task_length <= 57:
+            elif task_length <= 75:
                 # permita que la tarea se expanda a tres lineas
                 self.textbox.bind('<Enter>', lambda event: event.widget.configure(height = 3))
                 self.textbox.bind('<Leave>', lambda event: event.widget.configure(height = 1))
