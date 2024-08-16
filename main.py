@@ -31,7 +31,7 @@ class Window(CTk):
         Notepad(self, 1, 'inbox 1')
         Notepad(self, 2, 'inbox 2')
         TasksManager(self, 1, 'Due')
-        TasksManager(self, 2, 'BrainDump')
+        TasksManager(self, 2, 'Today')
 
         self.geometry('1536x795-9-1')
 
@@ -180,7 +180,7 @@ class TasksManager(CTkFrame):
             self.default_project = 'Due'
         else:
             self.mod = 'Control'
-            self.default_project = 'BrainDump'
+            self.default_project = 'Today'
 
         super().__init__(master = parent, fg_color = BLACK)
 
