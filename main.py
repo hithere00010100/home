@@ -28,8 +28,8 @@ class Window(CTk):
         self.rowconfigure(index = 2, weight = 3, uniform = 'row')
 
         Timer(self)
-        Notepad(self, 1, 'inbox')
-        Notepad(self, 2, 'reminders')
+        Notepad(self, 1, 'inbox 1')
+        Notepad(self, 2, 'inbox 2')
         TasksManager(self, 1, 'Due')
         TasksManager(self, 2, 'BrainDump')
 
