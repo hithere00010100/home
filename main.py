@@ -30,8 +30,8 @@ class Window(CTk):
         Timer(self)
         Notepad(self, 1, 'inbox 1')
         Notepad(self, 2, 'inbox 2')
-        TasksManager(self, 1, 'Due')
-        TasksManager(self, 2, 'Independiente')
+        TasksManager(self, 1, 'aDue')
+        TasksManager(self, 2, 'aIndependiente')
 
         self.geometry('1536x795-9-1')
 
@@ -177,10 +177,10 @@ class TasksManager(CTkFrame):
 
         if self.row == 1:
             self.mod = 'Alt'
-            self.default_project = 'Due'
+            self.default_project = 'aDue'
         else:
             self.mod = 'Control'
-            self.default_project = 'Independiente'
+            self.default_project = 'aIndependiente'
 
         super().__init__(master = parent, fg_color = BLACK)
 
@@ -257,6 +257,7 @@ class TasksManager(CTkFrame):
         cursor = connection.cursor()
         cursor.execute('SELECT name FROM sqlite_master WHERE type = ?', ('table',))
         projects = cursor.fetchall()
+        projects.sort()
         connection.close()
 
         for a, project in enumerate(projects):
