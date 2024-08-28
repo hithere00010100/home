@@ -33,7 +33,17 @@ class Window(CTk):
         TasksManager(self, 1, 'aDue')
         TasksManager(self, 2, 'aIndependiente')
 
-        self.geometry('1536x795-9-1')
+        # ponga la app de todo el tamanho de la pantalla para averiguar el ancho y alto de la pantalla
+        self.attributes('-fullscreen', True)
+        screen_width = self.winfo_width()
+        screen_height = self.winfo_height()
+        # devuelva la app a su estado original
+        self.attributes('-fullscreen', False)
+
+        # ponga la app con dimensiones del 80 % de las dimensiones de la pantalla
+        window_width = int(0.8 * screen_width)
+        window_height = int(0.8 * screen_height)
+        self.geometry(f'{window_width}x{window_height}+50+50')
 
 class Timer(CTkFrame):
     def __init__(self, parent):
