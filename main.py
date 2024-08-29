@@ -486,6 +486,8 @@ class Entry(CTkEntry):
             self.tasks_manager = args[2]
             self.parent = args[3]
 
+            self.entry_var.set(value = self.name)
+
     def cancel(self):
         self.destroy()
 
