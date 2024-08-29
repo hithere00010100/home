@@ -84,7 +84,10 @@ class Timer(CTkFrame):
 
         else:
             self.state.set(value = 0)
-            self.message = Entry(self.parent, 'bother')
+            if self.full_time == FOCUS_TIME:
+                self.message = Entry(self.parent, 'bother')
+            else:
+                self.message = Entry(self.parent, 'bother2')
             self.bother()
 
     def count(self):
@@ -474,6 +477,9 @@ class Entry(CTkEntry):
 
         elif self.use == 'bother':
             self.entry_var.set(value = 'Get up, check phone, exercise')
+
+        elif self.use == 'bother2':
+            self.entry_var.set(value = 'Time to focus')
 
         elif self.use == 'add project':
             self.focus()
