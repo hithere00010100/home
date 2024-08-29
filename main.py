@@ -45,6 +45,27 @@ class Window(CTk):
         window_height = int(0.8 * screen_height)
         self.geometry(f'{window_width}x{window_height}+50+50')
 
+        self.large_layout_height = 500
+        self.current_layout_var = StringVar(value = 'large')
+
+        self.bind('<Configure>', lambda event: self.estimate_layout(event))
+        self.current_layout_var.trace(mode = 'w', callback = self.change_layout)
+
+    def estimate_layout(self, event):
+        if event.widget == self:
+            if self.current_layout_var.get() == 'large':
+                if event.height < self.large_layout_height:
+                    self.current_layout_var.set(value = 'small')
+            else:
+                if event.height > self.large_layout_height:
+                    self.current_layout_var.set(value = 'large')
+            
+    def change_layout(self, *args):
+        if self.current_layout_var.get() == 'large':
+            print('large')
+        else:
+            print('small')
+
 class Timer(CTkFrame):
     def __init__(self, parent):
         super().__init__(master = parent, fg_color = BLACK)
