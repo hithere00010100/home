@@ -30,8 +30,8 @@ class Window(CTk):
         Timer(self)
         Notepad(self, 1, 'inbox 1')
         Notepad(self, 2, 'inbox 2')
-        TasksManager(self, 1, 'aDue')
-        TasksManager(self, 2, 'aIndependiente')
+        self.tasks_manager1 = TasksManager(self, 1, 'aDue', 'large')
+        self.tasks_manager2 = TasksManager(self, 2, 'aIndependiente', 'large')
 
         # ponga la app de todo el tamanho de la pantalla para averiguar el ancho y alto de la pantalla
         self.attributes('-fullscreen', True)
@@ -62,9 +62,32 @@ class Window(CTk):
             
     def change_layout(self, *args):
         if self.current_layout_var.get() == 'large':
-            print('large')
+            try:
+                self.tasks_managers_container.destroy()
+            except:
+                pass
+    
+            Timer(self)
+            Notepad(self, 1, 'inbox 1')
+            Notepad(self, 2, 'inbox 2')
+            TasksManager(self, 1, 'aDue', 'large')
+            TasksManager(self, 2, 'aIndependiente', 'large')
+
         else:
-            print('small')
+            try:
+                self.tasks_manager1.destroy()
+                self.tasks_manager2.destroy()
+            except:
+                pass
+
+            self.tasks_managers_container = CTkScrollableFrame(master = self, fg_color = WHITE)
+            self.tasks_managers_container.grid(row = 1, column = 0, rowspan = 2, sticky = 'nesw')
+            
+            Timer(self)
+            Notepad(self, 1, 'inbox 1')
+            Notepad(self, 2, 'inbox 2')
+            TasksManager(self.tasks_managers_container, 1, 'aDue', 'small')
+            TasksManager(self.tasks_managers_container, 2, 'aIndependiente', 'small')
 
 class Timer(CTkFrame):
     def __init__(self, parent):
@@ -204,10 +227,11 @@ class Notepad(CTkFrame):
         Entry(self.parent, 'open notes', self, self.col)
 
 class TasksManager(CTkFrame):
-    def __init__(self, parent, row, name):
+    def __init__(self, parent, row, name, layout):
         self.parent = parent
         self.row = row
         self.name = name
+        self.layout = layout
 
         if self.row == 1:
             self.mod = 'Alt'
@@ -231,7 +255,11 @@ class TasksManager(CTkFrame):
         self.checkboxes_vars = list()
         self.focused_widget = self.parent
 
-        self.create_widgets()
+        if self.layout == 'large':
+            self.create_widgets()
+        else:
+            self.create_small_widgets()
+
         self.restore_tasks()
 
         self.parent.bind(f'<{self.mod}-KeyPress-a>', lambda event: self.add_task())
@@ -270,6 +298,9 @@ class TasksManager(CTkFrame):
         self.tasks_frame.grid(row = 1, column = 0, sticky = 'nesw', padx = 10, pady = (0, 10))
         self.grid(row = self.row, column = 0, sticky = 'nesw')
 
+    def create_small_widgets(self):
+        pass
+
     def add_project(self):
         Entry(self.parent, 'add project', self.row)
 
@@ -281,10 +312,10 @@ class TasksManager(CTkFrame):
         connection.close()
 
         self.destroy()
-        TasksManager(self.parent, self.row, self.default_project)
+        TasksManager(self.parent, self.row, self.default_project, self.layout)
 
     def rename_project(self):
-        Entry(self.parent, 'rename project', self.row, self.name, self, self.parent)
+        Entry(self.parent, 'rename project', self.row, self.name, self, self.parent, self.layout)
 
     def next_project(self, step):
         connection = db.connect(f'{self.row}.db')
@@ -304,7 +335,7 @@ class TasksManager(CTkFrame):
                     next_project = projects[0][0]
 
         self.destroy()
-        TasksManager(self.parent, self.row, next_project)
+        TasksManager(self.parent, self.row, next_project, self.layout)
 
     def add_task(self):
         if self.focused_widget == self.parent:
@@ -348,7 +379,7 @@ class TasksManager(CTkFrame):
             connection.close()
 
             self.destroy()
-            TasksManager(self.parent, self.row, self.name)
+            TasksManager(self.parent, self.row, self.name, self.layout)
 
     def discard_task(self):
         self.focused_widget = self.parent
@@ -387,7 +418,7 @@ class TasksManager(CTkFrame):
             connection.close()
 
             self.destroy()
-            TasksManager(self.parent, self.row, self.name)
+            TasksManager(self.parent, self.row, self.name, self.layout)
 
     def delete_task(self):
         connection = db.connect(f'{self.row}.db')
@@ -407,7 +438,7 @@ class TasksManager(CTkFrame):
         connection.close()
 
         self.destroy()
-        TasksManager(self.parent, self.row, self.name)
+        TasksManager(self.parent, self.row, self.name, self.layout)
 
     def restore_tasks(self):
         connection = db.connect(f'{self.row}.db')
@@ -512,6 +543,7 @@ class Entry(CTkEntry):
             self.name = args[1]
             self.tasks_manager = args[2]
             self.parent = args[3]
+            self.layout = args[4]
 
             self.entry_var.set(value = self.name)
 
@@ -569,7 +601,7 @@ class Entry(CTkEntry):
 
             self.destroy()
             self.tasks_manager.destroy()
-            TasksManager(self.parent, self.row, new_name)
+            TasksManager(self.parent, self.row, new_name, self.layout)
 
 if __name__ == '__main__':
     window = Window()
