@@ -27,7 +27,7 @@ class Window(CTk):
         self.rowconfigure(index = 1, weight = 3, uniform = 'row')
         self.rowconfigure(index = 2, weight = 3, uniform = 'row')
 
-        Timer(self)
+        Timer(self, self)
         Notepad(self, 1, 'inbox 1')
         Notepad(self, 2, 'inbox 2')
         self.tasks_manager1 = TasksManager(self, 1, 'aDue', 'large')
@@ -67,7 +67,7 @@ class Window(CTk):
             except:
                 pass
     
-            Timer(self)
+            Timer(self, self)
             Notepad(self, 1, 'inbox 1')
             Notepad(self, 2, 'inbox 2')
             TasksManager(self, 1, 'aDue', 'large')
@@ -81,19 +81,20 @@ class Window(CTk):
                 pass
 
             self.tasks_managers_container = CTkScrollableFrame(master = self, fg_color = WHITE)
-            self.tasks_managers_container.grid(row = 1, column = 0, rowspan = 2, sticky = 'nesw')
+            self.tasks_managers_container.grid(row = 0, column = 0, rowspan = 3, sticky = 'nesw')
             
-            Timer(self)
+            Timer(self.tasks_managers_container, self)
             Notepad(self, 1, 'inbox 1')
             Notepad(self, 2, 'inbox 2')
             TasksManager(self.tasks_managers_container, 1, 'aDue', 'small')
             TasksManager(self.tasks_managers_container, 2, 'aIndependiente', 'small')
 
 class Timer(CTkFrame):
-    def __init__(self, parent):
+    def __init__(self, parent, window):
         super().__init__(master = parent, fg_color = BLACK)
 
         self.parent = parent
+        self.window = window
 
         self.state = IntVar(value = 0)
         self.time = FOCUS_TIME
@@ -162,8 +163,8 @@ class Timer(CTkFrame):
 
     def bother(self):
         if self.state.get() == 0:           
-            self.parent.state(newstate = 'normal')
-            self.parent.attributes('-topmost', True)
+            self.window.state(newstate = 'normal')
+            self.window.attributes('-topmost', True)
 
             self.after(ms = 60000, func = self.bother)
 
