@@ -100,8 +100,8 @@ class Timer(CTkFrame):
         self.time = FOCUS_TIME
         self.full_time = self.time
         
-        self.parent.bind('<Alt-KeyPress-1>', lambda event: self.trigger())
-        self.parent.bind('<Alt-KeyPress-2>', lambda event: self.reset())
+        self.window.bind('<Alt-KeyPress-1>', lambda event: self.trigger())
+        self.window.bind('<Alt-KeyPress-2>', lambda event: self.reset())
 
         self.create_widgets()
         self.update()
@@ -120,7 +120,7 @@ class Timer(CTkFrame):
         if self.state.get() == 0:
             self.state.set(value = 1)
             self.count()
-            self.parent.attributes('-topmost', False)
+            self.window.attributes('-topmost', False)
 
             try:
                 self.message.destroy()
@@ -130,9 +130,9 @@ class Timer(CTkFrame):
         else:
             self.state.set(value = 0)
             if self.full_time == FOCUS_TIME:
-                self.message = Entry(self.parent, 'bother')
+                self.message = Entry(self.window, 'bother')
             else:
-                self.message = Entry(self.parent, 'bother2')
+                self.message = Entry(self.window, 'bother2')
             self.bother()
 
     def count(self):
