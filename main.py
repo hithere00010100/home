@@ -166,7 +166,7 @@ class Timer(CTkFrame):
             self.window.state(newstate = 'normal')
             self.window.attributes('-topmost', True)
 
-            self.after(ms = 60000, func = self.bother)
+            self.after(ms = 1000, func = self.bother)
 
 class Notepad(CTkFrame):
     def __init__(self, parent, col, notes_name):
