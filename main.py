@@ -27,7 +27,7 @@ class Window(CTk):
         self.rowconfigure(index = 1, weight = 3, uniform = 'row')
         self.rowconfigure(index = 2, weight = 3, uniform = 'row')
 
-        Timer(self, self)
+        Timer(self, self, 'large')
         Notepad(self, 1, 'inbox 1')
         Notepad(self, 2, 'inbox 2')
         self.tasks_manager1 = TasksManager(self, 1, 'aDue', 'large')
@@ -67,7 +67,7 @@ class Window(CTk):
             except:
                 pass
     
-            Timer(self, self)
+            Timer(self, self, 'large')
             Notepad(self, 1, 'inbox 1')
             Notepad(self, 2, 'inbox 2')
             TasksManager(self, 1, 'aDue', 'large')
@@ -80,21 +80,22 @@ class Window(CTk):
             except:
                 pass
 
-            self.tasks_managers_container = CTkScrollableFrame(master = self, fg_color = WHITE)
+            self.tasks_managers_container = CTkScrollableFrame(master = self, fg_color = BLACK, scrollbar_button_color = WHITE, scrollbar_button_hover_color = WHITE)
             self.tasks_managers_container.grid(row = 0, column = 0, rowspan = 3, sticky = 'nesw')
             
-            Timer(self.tasks_managers_container, self)
+            Timer(self.tasks_managers_container, self, 'small')
             Notepad(self, 1, 'inbox 1')
             Notepad(self, 2, 'inbox 2')
             TasksManager(self.tasks_managers_container, 1, 'aDue', 'small')
             TasksManager(self.tasks_managers_container, 2, 'aIndependiente', 'small')
 
 class Timer(CTkFrame):
-    def __init__(self, parent, window):
+    def __init__(self, parent, window, layout):
         super().__init__(master = parent, fg_color = BLACK)
 
         self.parent = parent
         self.window = window
+        self.layout = layout
 
         self.state = IntVar(value = 0)
         self.time = FOCUS_TIME
@@ -103,7 +104,11 @@ class Timer(CTkFrame):
         self.window.bind('<Alt-KeyPress-1>', lambda event: self.trigger())
         self.window.bind('<Alt-KeyPress-2>', lambda event: self.reset())
 
-        self.create_widgets()
+        if self.layout == 'large':
+            self.create_widgets()
+        else:
+            self.create_small_widgets()
+
         self.update()
         self.bother()
     
@@ -115,6 +120,15 @@ class Timer(CTkFrame):
 
         self.label.pack(pady = 15)
         self.grid(row = 0, column = 0, sticky = 'nesw')
+
+    def create_small_widgets(self):
+        font = CTkFont(family = FONT_FAMILY, size = 40, weight = 'bold')
+
+        self.label = CTkButton(master = self, fg_color = DARK_GRAY, font = font, text_color = WHITE, width = 130,
+            corner_radius = 10, hover_color = LIGHT_GRAY, command = self.trigger)
+
+        self.label.pack(pady = 15)
+        self.pack(fill = 'x')
 
     def trigger(self):
         if self.state.get() == 0:
@@ -300,7 +314,35 @@ class TasksManager(CTkFrame):
         self.grid(row = self.row, column = 0, sticky = 'nesw')
 
     def create_small_widgets(self):
-        pass
+        label_font = CTkFont(family = FONT_FAMILY, size = 20)
+        buttons_font = CTkFont(family = FONT_FAMILY, size = 16)
+
+        header = CTkFrame(master = self, fg_color = BLACK)
+
+        name_label = CTkLabel(master = header, text = self.name, text_color = WHITE, font = label_font)
+        
+        delete_button = CTkButton(master = header, fg_color = DARK_GRAY, text = 'D', width = 30, height = 30,
+            hover_color = LIGHT_GRAY, font = buttons_font, text_color = WHITE, corner_radius = 10,
+            command = self.delete_project)
+        
+        add_button = CTkButton(master = header, fg_color = DARK_GRAY, text = 'A', width = 30, height = 30,
+            hover_color = LIGHT_GRAY, font = buttons_font, text_color = WHITE, corner_radius = 10,
+            command = self.add_project)
+
+        rename_button = CTkButton(master = header, fg_color = DARK_GRAY, text = 'R', width = 30, height = 30,
+            hover_color = LIGHT_GRAY, font = buttons_font, text_color = WHITE, corner_radius = 10,
+            command = self.rename_project)
+        
+        self.tasks_frame = CTkScrollableFrame(master = self, fg_color = DARK_GRAY, height = 300,
+            scrollbar_button_color = WHITE, scrollbar_button_hover_color = WHITE, corner_radius = 10)
+
+        header.grid(row = 0, column = 0, sticky = 'nesw', padx = 10, pady = 10)
+        name_label.pack(side = 'left', padx = 10, pady = 10)
+        delete_button.pack(side = 'right', padx = (0, 10))
+        add_button.pack(side = 'right', padx = 5)
+        rename_button.pack(side = 'right')
+        self.tasks_frame.grid(row = 1, column = 0, sticky = 'nesw', padx = 10, pady = (0, 10))
+        self.pack(fill = 'x')
 
     def add_project(self):
         Entry(self.parent, 'add project', self.row)
